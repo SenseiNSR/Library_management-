@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-book"></i></div>
+            <div class="stat-details">
+                <h3>Total Books</h3>
+                <p>{{ total_books }}</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+            <div class="stat-details">
+                <h3>Available</h3>
+                <p>{{ available_books }}</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <div class="stat-details">
+                <h3>Active Members</h3>
+                <p>{{ total_members }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="recent-transactions">
+        <h2 class="section-title">Recent Transactions</h2>
+        {% if recent_transactions %}
+            <table class="classy-table">
+                <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Member</th>
+                        <th>Issue Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in recent_transactions %}
+                    <tr>
+                        <td>{{ t.title }}</td>
+                        <td>{{ t.name }}</td>
+                        <td>{{ t.issue_date }}</td>
+                        <td>
+                            {% if t.return_date %}
+                                <span class="badge badge-success">Returned</span>
+                            {% else %}
+                                <span class="badge badge-warning">Issued</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="empty-state">No recent transactions to show.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

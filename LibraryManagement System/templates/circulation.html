@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <h2 class="section-title">Circulation Desk</h2>
+    <a href="{{ url_for('issue_book') }}" class="btn btn-primary"><i class="fas fa-hand-holding-usd"></i> Issue a Book</a>
+</div>
+
+<div class="catalog-container">
+    {% if transactions %}
+        <table class="classy-table">
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Book Title</th>
+                    <th>Member Name</th>
+                    <th>Issue Date</th>
+                    <th>Return Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in transactions %}
+                <tr>
+                    <td>#{{ t.id }}</td>
+                    <td><strong>{{ t.title }}</strong></td>
+                    <td>{{ t.name }}</td>
+                    <td>{{ t.issue_date }}</td>
+                    <td>
+                        {% if t.return_date %}
+                            <span class="badge badge-success">{{ t.return_date }}</span>
+                        {% else %}
+                            <span class="badge badge-warning">Not Returned</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not t.return_date %}
+                            <form action="{{ url_for('return_book', transaction_id=t.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-secondary" style="padding: 0.3rem 0.8rem; font-size: 0.9rem;">
+                                    <i class="fas fa-undo"></i> Return
+                                </button>
+                            </form>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-exchange-alt" style="font-size: 3rem; color: var(--gold); margin-bottom: 1rem;"></i>
+            <p>No transaction history found.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

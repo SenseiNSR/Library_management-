@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <h2 class="section-title">Issue Book</h2>
+    <a href="{{ url_for('circulation') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Circulation</a>
+</div>
+
+<div class="form-container">
+    <form method="POST" action="{{ url_for('issue_book') }}" class="classy-form">
+        <div class="form-group">
+            <label for="book_id">Select Book</label>
+            <select id="book_id" name="book_id" required style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 4px; font-family: 'Lato', sans-serif; font-size: 1rem; background-color: white;">
+                <option value="" disabled selected>-- Select an available book --</option>
+                {% for book in books %}
+                    <option value="{{ book.id }}">{{ book.title }} (by {{ book.author }})</option>
+                {% endfor %}
+            </select>
+            {% if not books %}
+                <small style="color: var(--warning); display: block; margin-top: 0.5rem;"><i class="fas fa-exclamation-triangle"></i> No books are currently available to issue.</small>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="member_id">Select Member</label>
+            <select id="member_id" name="member_id" required style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 4px; font-family: 'Lato', sans-serif; font-size: 1rem; background-color: white;">
+                <option value="" disabled selected>-- Select a member --</option>
+                {% for member in members %}
+                    <option value="{{ member.id }}">{{ member.name }} ({{ member.email }})</option>
+                {% endfor %}
+            </select>
+            {% if not members %}
+                <small style="color: var(--warning); display: block; margin-top: 0.5rem;"><i class="fas fa-exclamation-triangle"></i> Please add members before issuing books.</small>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="btn btn-primary" {% if not books or not members %}disabled{% endif %}><i class="fas fa-check"></i> Issue Book</button>
+    </form>
+</div>
+{% endblock %}

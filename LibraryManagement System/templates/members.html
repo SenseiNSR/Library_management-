@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <h2 class="section-title">Members List</h2>
+    <a href="{{ url_for('add_member') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Add New Member</a>
+</div>
+
+<div class="catalog-container">
+    {% if members %}
+        <table class="classy-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for member in members %}
+                <tr>
+                    <td><strong>{{ member.name }}</strong></td>
+                    <td>{{ member.email }}</td>
+                    <td>{{ member.phone or 'N/A' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-users" style="font-size: 3rem; color: var(--gold); margin-bottom: 1rem;"></i>
+            <p>No members found in the library.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

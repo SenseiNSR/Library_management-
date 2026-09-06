@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <h2 class="section-title">Add New Book</h2>
+    <a href="{{ url_for('books') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Catalog</a>
+</div>
+
+<div class="form-container">
+    <form method="POST" action="{{ url_for('add_book') }}" class="classy-form">
+        <div class="form-group">
+            <label for="title">Book Title</label>
+            <input type="text" id="title" name="title" required placeholder="e.g., The Great Gatsby">
+        </div>
+        
+        <div class="form-group">
+            <label for="author">Author</label>
+            <input type="text" id="author" name="author" required placeholder="e.g., F. Scott Fitzgerald">
+        </div>
+        
+        <div class="form-group">
+            <label for="isbn">ISBN</label>
+            <input type="text" id="isbn" name="isbn" placeholder="e.g., 978-0743273565">
+        </div>
+        
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Book</button>
+    </form>
+</div>
+{% endblock %}

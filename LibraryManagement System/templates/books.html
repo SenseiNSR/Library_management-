@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <h2 class="section-title">Book Catalog</h2>
+    <a href="{{ url_for('add_book') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Add New Book</a>
+</div>
+
+<div class="catalog-container">
+    {% if books %}
+        <table class="classy-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <td><strong>{{ book.title }}</strong></td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.isbn }}</td>
+                    <td>
+                        <span class="badge {% if book.status == 'Available' %}badge-success{% else %}badge-warning{% endif %}">
+                            {{ book.status }}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-books" style="font-size: 3rem; color: var(--gold); margin-bottom: 1rem;"></i>
+            <p>No books in the catalog yet.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

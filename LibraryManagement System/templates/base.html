@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classy Library</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-book-reader"></i> Athenaeum</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="{{ url_for('books') }}" class="{% if request.endpoint == 'books' or request.endpoint == 'add_book' %}active{% endif %}"><i class="fas fa-book"></i> Catalog</a></li>
+            <li><a href="{{ url_for('members') }}" class="{% if request.endpoint == 'members' or request.endpoint == 'add_member' %}active{% endif %}"><i class="fas fa-users"></i> Members</a></li>
+            <li><a href="{{ url_for('circulation') }}" class="{% if request.endpoint == 'circulation' or request.endpoint == 'issue_book' %}active{% endif %}"><i class="fas fa-exchange-alt"></i> Circulation</a></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        <header class="topbar">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search for books, authors...">
+            </div>
+            <div class="user-profile">
+                <span>Librarian</span>
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </header>
+
+        <div class="main-content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+</body>
+</html>
